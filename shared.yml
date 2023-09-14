@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Shared
+  version: 2.0.0
+paths:
+  # None for now
+components:
+  schemas:
+    Problem:
+      type: object
+      description: Detailed description of a problem according https://datatracker.ietf.org/doc/html/rfc7807
+      required:
+        - title
+        - status
+      properties:
+        instance:
+          description: Reference for the specific problem occurrence.
+          type: string
+        type:
+          description: A URI reference that identifies the problem type.
+          type: string
+        status:
+          description: The HTTP status code.
+          type: integer
+        title:
+          description: A short, human readable summary.
+          type: string
+        detail:
+          description: A human-readable explanation.
+          type: string
+
+    Range:
+      type: object
+      description: Represents a frequency range. All values represented in MHz.
+      required:
+        - from
+        - to
+      properties:
+        from:
+          description: Frequency from which this range starts from.
+          type: number
+          format: double
+        to:
+          description: Frequency to which this range ends at.
+          type: number
+          format: double
+    AlgorithmType:
+      type: string
+      description: >
+        Represents the algorithm used for generation of jamming signal:
+         * `NONE` - No algorithm is set or incorrect value.
+         * `CW` - Continuous Wave - Signal is emitted on entire frequency range. This will generate less stronger signal,
+                  compared to other jamming algorithms.
+         * `SWEEP` - Jamming signal is moved sinusoidally on a given frequency.
+         * `BARRAGE` - Jamming signal is emitted arbitrary on a given frequency, constantly switching frequency on
+                       which it is emitted.
+         * `ARBITRARY_SWEEP` - Same as sweep, but the direction of moving signal can randomly change.
+      enum: [NONE, CW, SWEEP, BARRAGE, ARBITRARY_SWEEP]
+    JammingState:
+      type: string
+      description: >
+        The state in which the Jamming range is in.
+         * `OFF` - The range is turned off and therefore is not being jammed.
+         * `PENDING` - The range is starting up.
+         * `ACTIVE` - The range is running and its jamming.
+      enum: [OFF, PENDING, ACTIVE]
+    JammingType:
+      type: string
+      description: >
+        Jamming type of range - indicates in which mode jamming will work
+         * `PERMANENT` - This unit will jam a signal on this frequency continuously.
+         * `SEMIREACTIVE` - This unit will jam reactively with a pattern
+         * `REACTIVE` - This unit will jam the signal only when it is emitted on this frequency range.
+      enum: [PERMANENT, SEMIREACTIVE, REACTIVE]

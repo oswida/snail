@@ -2,5 +2,5 @@ package tpl
 
 import "embed"
 
-//go:embed *.md
+//go:embed *.gotmpl
 var TemplateFS embed.FS

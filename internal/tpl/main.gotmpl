@@ -1,0 +1,16 @@
+{{if .Info}}
+# {{.Info.Title}} 
+- Version: {{.Info.Version}}
+- Servers
+{{range $skey, $svalue := .Servers}}
+    - {{.URL}}
+{{end}}
+{{end}}
+
+## Endpoints
+
+{{template "paths.gotmpl" .}}
+
+## Components
+
+{{template "components.gotmpl" .}}

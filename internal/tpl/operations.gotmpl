@@ -1,0 +1,32 @@
+{{range $opkey, $opval := .Operations}}
+#### {{$opkey}}
+{{$opval.Summary}}
+{{$opval.Description}}
+{{if .Security}}
+**Security:**
+{{range .Security}}
+{{range $skey, $sval := . }}
+- {{$skey}}: {{$sval}}
+{{end}}
+{{end}}
+{{end}}
+**Parameters:**
+{{range $opval.Parameters}}
+- {{.Value.Name}}
+    - {{.Value.Description}}
+    - Required: {{.Value.Required}}
+    - Type: {{.Value.Schema.Value.Type}}
+    - Sent in: {{.Value.In}}
+{{end}}
+**Responses**
+{{range $rkey, $rval := $opval.Responses}}
+> {{$rkey}} {{$rval.Value.Description}}
+
+{{if $rval.Value.Headers}}
+Headers:
+{{range $hkey, $hval := $rval.Value.Headers}}
+- {{$hkey}}: {{if $hval.Value.Name}} {{$hval.Value.Name}}; {{end}} {{$hval.Value.Description}} ({{$hval.Value.Schema.Value.Type}})
+{{end}}
+{{end}}
+{{end}}
+{{end}}

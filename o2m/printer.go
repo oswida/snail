@@ -17,7 +17,7 @@ func NewPrinter(fs embed.FS) *Printer {
 }
 
 func (p *Printer) Print(filename string) (string, error) {
-	mainTemplate, err := template.ParseFS(p.fs, "main.md")
+	mainTemplate, err := template.ParseFS(p.fs, "*.gotmpl")
 	if err != nil {
 		return "", err
 	}
@@ -26,6 +26,6 @@ func (p *Printer) Print(filename string) (string, error) {
 		return "", err
 	}
 	var buff bytes.Buffer
-	err = mainTemplate.Execute(&buff, parser)
+	err = mainTemplate.ExecuteTemplate(&buff, "main.gotmpl", parser.Doc)
 	return buff.String(), err
 }

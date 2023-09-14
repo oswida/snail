@@ -1,0 +1,7 @@
+{{range $pkey, $pval := .Paths}}
+### {{$pkey}}
+{{$pval.Summary}}
+{{$pval.Description}}
+{{template "operations.gotmpl" .}}
+----------
+{{end}}

@@ -8,7 +8,7 @@ import (
 
 func main() {
 	printer := o2m.NewPrinter(tpl.TemplateFS)
-	data, err := printer.Print("o2m/testdata/basic.yml")
+	data, err := printer.Print("test.yml")
 	if err != nil {
 		panic(err)
 	}

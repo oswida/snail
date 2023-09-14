@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Internal API token REST calls
+  version: 1.0.0
+servers:
+  - url: "/api/auth/token"
+  - url: "http://localhost:6070/api/auth/token"
+
+components:
+  securitySchemes:
+    roleAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /login:
+    get:
+      operationId: login-token
+      security:
+        - roleAuth: ["LEVEL_1"]
+      summary: Performs the user log-in operation using previously created JWT token.
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          description: Token represented as a string with format "Bearer [JWT token]"
+          required: true
+      responses:
+        200:
+          description: User has been logged in properly.
+          headers:
+            Cookie:
+              schema:
+                type: string
+              description: Identifier of a logged-in session, saved as UUID.
+        401:
+          description: Unauthorized
+        400:
+          description: The given authorization format is incorrect.
+        404:
+          description: The given token was not found.
+        default:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "./shared.yml#/components/schemas/Problem"
